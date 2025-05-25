@@ -1057,5 +1057,9 @@ vim.keymap.set('n', '<leader>e', function()
   }
 end, { desc = 'Toggle Neo-tree (right)' })
 
+vim.keymap.set('n', 'gd', function()
+  vim.lsp.buf.declaration()
+end, { desc = 'Goto declaration' })
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

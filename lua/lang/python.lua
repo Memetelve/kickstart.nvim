@@ -1,7 +1,20 @@
 -- lua/lang/python.lua
 
 -- LSP: Pyright
-require('lspconfig').pyright.setup {}
+-- require('lspconfig').pyright.setup {}
+
+-- Using nvim-lspconfig
+require('lspconfig').pyright.setup {
+  settings = {
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true,
+        diagnosticMode = 'workspace',
+      },
+    },
+  },
+}
 
 -- Formatter: Black (via null-ls/none-ls)
 local null_ls = require 'null-ls'
