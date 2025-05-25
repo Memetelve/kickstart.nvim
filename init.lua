@@ -1025,6 +1025,7 @@ require('lazy').setup({
 })
 
 require 'lang.ruby'
+require 'lang.python'
 
 -- In your keymaps file or init.lua
 --
@@ -1033,7 +1034,7 @@ require('catppuccin').setup {
   -- other options...
 }
 
-vim.cmd.colorscheme 'tokyonight'
+vim.cmd.colorscheme 'tokyonight-storm'
 
 -- Normal mode: <leader>/ to toggle comment on the current line
 vim.keymap.set('n', '<leader>c', function()
