@@ -1,9 +1,3 @@
--- lua/lang/python.lua
-
--- LSP: Pyright
--- require('lspconfig').pyright.setup {}
-
--- Using nvim-lspconfig
 require('lspconfig').pyright.setup {
   settings = {
     python = {
@@ -16,16 +10,6 @@ require('lspconfig').pyright.setup {
   },
 }
 
--- Formatter: Black (via null-ls/none-ls)
-local null_ls = require 'null-ls'
--- null_ls.register(null_ls.builtins.formatting.black.with {
---   extra_args = { '--fast' },
--- })
---
--- Linter: Flake8 (via null-ls/none-ls)
--- null_ls.register(null_ls.builtins.diagnostics.flake8)
-
--- Optional: Keymap to format Python files
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'python',
   callback = function()
@@ -34,3 +18,12 @@ vim.api.nvim_create_autocmd('FileType', {
     end, { buffer = true, desc = 'Format Python file' })
   end,
 })
+
+local null_ls = require 'null-ls'
+
+null_ls.setup {
+  sources = {
+    null_ls.builtins.formatting.ruff,
+    null_ls.builtins.diagnostics.ruff,
+  },
+}
