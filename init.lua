@@ -248,7 +248,12 @@ rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
-  'nvimtools/none-ls.nvim',
+  {
+    'nvimtools/none-ls.nvim',
+    dependencies = {
+      'nvimtools/none-ls-extras.nvim',
+    },
+  },
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -437,6 +442,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      vim.keymap.set('n', '<leader>/', require('telescope.builtin').current_buffer_fuzzy_find, {})
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -965,14 +971,10 @@ require('lazy').setup({
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
   {
-    'catppuccin/nvim',
-    name = 'catppuccin',
-    -- priority = 1000, -- Make sure to load this before all other plugins
+    'katawful/kat.nvim',
   },
   {
-    'folke/tokyonight.nvim',
-    name = 'tokyonight',
-    priority = 1000,
+    'Shatur/neovim-ayu',
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
@@ -989,14 +991,14 @@ require('lazy').setup({
   -- require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.comment',
-  require 'kickstart.plugins.neo-tree',
+  -- require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
@@ -1028,13 +1030,8 @@ require 'lang.ruby'
 require 'lang.python'
 
 -- In your keymaps file or init.lua
---
-require('catppuccin').setup {
-  flavour = 'latte', -- or "latte", "frappe", "macchiato"
-  -- other options...
-}
 
-vim.cmd.colorscheme 'tokyonight-storm'
+vim.cmd.colorscheme 'ayu'
 
 -- Normal mode: <leader>/ to toggle comment on the current line
 vim.keymap.set('n', '<leader>c', function()
@@ -1061,5 +1058,29 @@ vim.keymap.set('n', 'gd', function()
   vim.lsp.buf.declaration()
 end, { desc = 'Goto declaration' })
 
+-- Unbind arrow keys in normal, insert, and visual modes
+vim.keymap.set('n', '<Up>', '<Nop>')
+vim.keymap.set('n', '<Down>', '<Nop>')
+vim.keymap.set('n', '<Left>', '<Nop>')
+vim.keymap.set('n', '<Right>', '<Nop>')
+vim.keymap.set('i', '<Up>', '<Nop>')
+vim.keymap.set('i', '<Down>', '<Nop>')
+vim.keymap.set('i', '<Left>', '<Nop>')
+vim.keymap.set('i', '<Right>', '<Nop>')
+vim.keymap.set('v', '<Up>', '<Nop>')
+vim.keymap.set('v', '<Down>', '<Nop>')
+vim.keymap.set('v', '<Left>', '<Nop>')
+vim.keymap.set('v', '<Right>', '<Nop>')
+
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'moves lines down in visual selection' })
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'moves lines up in visual selection' })
+
+vim.keymap.set('n', '<leader>fp', function()
+  local filePath = vim.fn.expand '%:~' -- Gets the file path relative to the home directory
+  vim.fn.setreg('+', filePath) -- Copy the file path to the clipboard register
+  print('File path copied to clipboard: ' .. filePath) -- Optional: print message to confirm
+end, { desc = 'Copy file path to clipboard' })
+
+-- Copy filepath to the clipboard
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
