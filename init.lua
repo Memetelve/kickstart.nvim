@@ -1075,6 +1075,9 @@ vim.keymap.set('v', '<Right>', '<Nop>')
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'moves lines down in visual selection' })
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'moves lines up in visual selection' })
 
+vim.keymap.set('n', '<leader>gb', Snacks.git.blame_line, { desc = 'show git blame for current line' })
+vim.keymap.set('n', '<leader>lg', Snacks.lazygit.open, { desc = 'show lazygit widow' })
+
 vim.keymap.set('n', '<leader>fp', function()
   local filePath = vim.fn.expand '%:~' -- Gets the file path relative to the home directory
   vim.fn.setreg('+', filePath) -- Copy the file path to the clipboard register
