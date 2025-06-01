@@ -1046,14 +1046,6 @@ vim.keymap.set('v', '<leader>c', function()
   require('Comment.api').toggle.linewise(vim.fn.visualmode())
 end, { desc = 'Toggle comment selection' })
 
-vim.keymap.set('n', '<leader>e', function()
-  require('neo-tree.command').execute {
-    toggle = true,
-    position = 'right',
-    dir = vim.loop.cwd(),
-  }
-end, { desc = 'Toggle Neo-tree (right)' })
-
 vim.keymap.set('n', 'gd', function()
   vim.lsp.buf.declaration()
 end, { desc = 'Goto declaration' })
@@ -1083,6 +1075,8 @@ vim.keymap.set('n', '<leader>fp', function()
   vim.fn.setreg('+', filePath) -- Copy the file path to the clipboard register
   print('File path copied to clipboard: ' .. filePath) -- Optional: print message to confirm
 end, { desc = 'Copy file path to clipboard' })
+
+vim.keymap.set('n', '<leader>tt', require('transparent').toggle)
 
 -- Copy filepath to the clipboard
 -- The line beneath this is called `modeline`. See `:help modeline`
