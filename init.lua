@@ -997,17 +997,9 @@ require('lazy').setup({
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
-  --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   { import = 'custom.plugins' },
-  --
-  -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
-  -- Or use telescope!
-  -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
-  -- you can continue same window with `<space>sr` which resumes last telescope search
 }, {
   ui = {
-    -- If you are using a Nerd Font: set icons to an empty table which will use the
-    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
     icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',
       config = '🛠',
@@ -1029,18 +1021,13 @@ require('lazy').setup({
 require 'lang.ruby'
 require 'lang.python'
 
--- In your keymaps file or init.lua
-
 vim.cmd.colorscheme 'ayu'
 
--- Normal mode: <leader>/ to toggle comment on the current line
 vim.keymap.set('n', '<leader>c', function()
   require('Comment.api').toggle.linewise.current()
 end, { desc = 'Toggle comment line' })
 
--- Visual mode: <leader>/ to toggle comment on selection
 vim.keymap.set('v', '<leader>c', function()
-  -- Get the start and end of the visual selection
   local esc = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
   vim.api.nvim_feedkeys(esc, 'nx', false)
   require('Comment.api').toggle.linewise(vim.fn.visualmode())
@@ -1050,24 +1037,19 @@ vim.keymap.set('n', 'gd', function()
   vim.lsp.buf.declaration()
 end, { desc = 'Goto declaration' })
 
--- Unbind arrow keys in normal, insert, and visual modes
-vim.keymap.set('n', '<Up>', '<Nop>')
-vim.keymap.set('n', '<Down>', '<Nop>')
-vim.keymap.set('n', '<Left>', '<Nop>')
-vim.keymap.set('n', '<Right>', '<Nop>')
-vim.keymap.set('i', '<Up>', '<Nop>')
-vim.keymap.set('i', '<Down>', '<Nop>')
-vim.keymap.set('i', '<Left>', '<Nop>')
-vim.keymap.set('i', '<Right>', '<Nop>')
-vim.keymap.set('v', '<Up>', '<Nop>')
-vim.keymap.set('v', '<Down>', '<Nop>')
-vim.keymap.set('v', '<Left>', '<Nop>')
-vim.keymap.set('v', '<Right>', '<Nop>')
+local modes = { 'n', 'i', 'v' }
+local unmapped_keys = { '<Up>', '<Down>', '<Left>', '<Right>' }
+
+for _, mode in ipairs(modes) do
+  for _, key_to_unmap in ipairs(unmapped_keys) do
+    vim.keymap.set(mode, key_to_unmap, '<Nop>')
+  end
+end
 
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'moves lines down in visual selection' })
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'moves lines up in visual selection' })
 
-vim.keymap.set('n', '<leader>gb', Snacks.git.blame_line, { desc = 'show git blame for current line' })
+vim.keymap.set('n', '<leader>bl', Snacks.git.blame_line, { desc = 'show git blame for current line' })
 vim.keymap.set('n', '<leader>lg', Snacks.lazygit.open, { desc = 'show lazygit widow' })
 
 vim.keymap.set('n', '<leader>fp', function()
@@ -1077,7 +1059,3 @@ vim.keymap.set('n', '<leader>fp', function()
 end, { desc = 'Copy file path to clipboard' })
 
 vim.keymap.set('n', '<leader>tt', require('transparent').toggle)
-
--- Copy filepath to the clipboard
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
