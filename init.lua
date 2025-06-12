@@ -911,12 +911,6 @@ require('lazy').setup({
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
-      -- Better Around/Inside textobjects
-      --
-      -- Examples:
-      --  - va)  - [V]isually select [A]round [)]paren
-      --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
-      --  - ci'  - [C]hange [I]nside [']quote
       require('mini.ai').setup { n_lines = 500 }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
@@ -925,6 +919,7 @@ require('lazy').setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
+      require('mini.trailspace').setup()
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
@@ -976,7 +971,20 @@ require('lazy').setup({
   {
     'Shatur/neovim-ayu',
   },
-
+  {
+    'zenbones-theme/zenbones.nvim',
+    -- Optionally install Lush. Allows for more configuration or extending the colorscheme
+    -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
+    -- In Vim, compat mode is turned on as Lush only works in Neovim.
+    dependencies = 'rktjmp/lush.nvim',
+    lazy = false,
+    priority = 1000,
+    -- you can set set configuration options here
+    -- config = function()
+    --     vim.g.zenbones_darken_comments = 45
+    --     vim.cmd.colorscheme('zenbones')
+    -- end
+  },
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
@@ -1021,7 +1029,7 @@ require('lazy').setup({
 require 'lang.ruby'
 require 'lang.python'
 
-vim.cmd.colorscheme 'ayu'
+vim.cmd.colorscheme 'rosebones'
 
 vim.keymap.set('n', '<leader>c', function()
   require('Comment.api').toggle.linewise.current()
@@ -1045,6 +1053,8 @@ for _, mode in ipairs(modes) do
     vim.keymap.set(mode, key_to_unmap, '<Nop>')
   end
 end
+
+require 'autocmd'
 
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'moves lines down in visual selection' })
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'moves lines up in visual selection' })
