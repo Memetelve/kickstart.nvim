@@ -3,7 +3,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
   pattern = '*',
   callback = function()
     if #vim.api.nvim_list_bufs() == 1 and vim.bo.filetype == 'oil' then
-      vim.cmd 'quit'
+      -- vim.cmd 'quit'
     end
   end,
 })

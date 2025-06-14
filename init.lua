@@ -1063,6 +1063,12 @@ vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'moves lines up in visual 
 vim.keymap.set('n', '<leader>bl', Snacks.git.blame_line, { desc = 'show git blame for current line' })
 vim.keymap.set('n', '<leader>lg', Snacks.lazygit.open, { desc = 'show lazygit widow' })
 
+local telecope_builtin = require 'telescope.builtin'
+
+vim.keymap.set('n', '<leader>ld', telecope_builtin.lsp_definitions, { desc = 'Show lsp definitions' })
+vim.keymap.set('n', '<leader>lr', telecope_builtin.lsp_references, { desc = 'Show lsp references' })
+vim.keymap.set('n', '<leader>lD', telecope_builtin.diagnostics, { desc = 'Show lsp diagnostics' })
+
 vim.keymap.set('n', 'gt', ':BufferNext<CR>')
 vim.keymap.set('n', 'gT', ':BufferPrev<CR>')
 
