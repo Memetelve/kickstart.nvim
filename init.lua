@@ -1028,6 +1028,7 @@ require('lazy').setup({
 
 require 'lang.ruby'
 require 'lang.python'
+require 'lang.cpp'
 
 vim.cmd.colorscheme 'rosebones'
 
@@ -1041,9 +1042,14 @@ vim.keymap.set('v', '<leader>c', function()
   require('Comment.api').toggle.linewise(vim.fn.visualmode())
 end, { desc = 'Toggle comment selection' })
 
-vim.keymap.set('n', 'gd', function()
-  vim.lsp.buf.declaration()
-end, { desc = 'Goto declaration' })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'python',
+  callback = function()
+    vim.keymap.set('n', 'gd', function()
+      vim.lsp.buf.declaration()
+    end, { buffer = 0, desc = 'Goto declaration' })
+  end,
+})
 
 local modes = { 'n', 'i', 'v' }
 local unmapped_keys = { '<Up>', '<Down>', '<Left>', '<Right>' }
@@ -1068,6 +1074,8 @@ local telecope_builtin = require 'telescope.builtin'
 vim.keymap.set('n', '<leader>ld', telecope_builtin.lsp_definitions, { desc = 'Show lsp definitions' })
 vim.keymap.set('n', '<leader>lr', telecope_builtin.lsp_references, { desc = 'Show lsp references' })
 vim.keymap.set('n', '<leader>lD', telecope_builtin.diagnostics, { desc = 'Show lsp diagnostics' })
+
+vim.keymap.set('n', '<leader>rn', ':IncRename ')
 
 vim.keymap.set('n', 'gt', ':BufferNext<CR>')
 vim.keymap.set('n', 'gT', ':BufferPrev<CR>')
