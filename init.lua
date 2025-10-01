@@ -690,7 +690,17 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
         --
-
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              analysis = {
+                autoSearchPaths = true,
+                diagnosticMode = 'openFilesOnly',
+                useLibraryCodeForTypes = true,
+              },
+            },
+          },
+        },
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
@@ -997,6 +1007,7 @@ require 'lang.ruby'
 require 'lang.python'
 require 'lang.cpp'
 
+vim.o.background = 'dark'
 vim.cmd.colorscheme 'rosebones'
 
 local modes = { 'n', 'i', 'v' }
@@ -1011,3 +1022,9 @@ end
 require 'autocmd'
 require 'macros'
 require 'custom.keybinds'
+
+vim.keymap.set('n', 'k', 'gk', { noremap = true, silent = true })
+vim.keymap.set('n', 'j', 'gj', { noremap = true, silent = true })
+
+vim.keymap.set('v', 'k', 'gk', { noremap = true, silent = true })
+vim.keymap.set('v', 'j', 'gj', { noremap = true, silent = true })

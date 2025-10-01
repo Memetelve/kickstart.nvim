@@ -1,14 +1,14 @@
-require('lspconfig').basedpyright.setup {
-  settings = {
-    python = {
-      analysis = {
-        autoSearchPaths = true,
-        useLibraryCodeForTypes = true,
-        diagnosticMode = 'workspace',
-      },
-    },
-  },
-}
+-- require('lspconfig').basedpyright.setup {
+--   settings = {
+--     python = {
+--       analysis = {
+--         autoSearchPaths = true,
+--         useLibraryCodeForTypes = true,
+--         diagnosticMode = 'workspace',
+--       },
+--     },
+--   },
+-- }
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'python',
@@ -24,6 +24,6 @@ local null_ls = require 'null-ls'
 null_ls.setup {
   sources = {
     require 'none-ls.formatting.ruff',
-    require 'none-ls.diagnostics.ruff',
+    -- require 'none-ls.diagnostics.ruff',
   },
 }
